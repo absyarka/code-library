@@ -12,7 +12,7 @@ struct SegTree {
         }
     }
     void upd(int pos, int x) {
-        pos = (pos + n - 1);
+        pos = (pos + n);
         t[pos] = x;
         for (int i = pos / 2; i > 0; --i) {
             t[i] = min(t[2 * i], t[2 * i + 1]);
@@ -30,3 +30,4 @@ struct SegTree {
     }
 };
 // Segment Tree from below for MIN
+// 0-indexed [L; R)
