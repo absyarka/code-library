@@ -57,10 +57,38 @@ struct SuffixAutomaton {
             }
         }
     }
-
+    
+    void debugPrint() {
+        for (int v = 0; v < freePos; ++v) {
+            cout << "Vertex : " << v << '\n';
+            cout << "Neighbours : ";
+            for (int x = 0; x < ALPHABET; ++x) {
+                if (go[v][x] != -1) {
+                    cout << "{ " << go[v][x] << ", " << (char)('a' + x) << " }, ";
+                }
+            }
+            cout << '\n';
+        }
+        cout << "Terminals : ";
+        for (int i = freePos - 1; i > -1; i = suffLink[i]) {
+            cout << i << ' ';
+        }
+    }
+    
     int freePos;
     int last;
     vector<int> suffLink;
     vector<int> maxParent;
     vector<vector<int> > go;
 };
+
+void calcDifferentSubstrings(int v, const SuffixAutomaton& SA, vector<ll>& ans) {
+    for (int x = 0; x < ALPHABET; ++x) {
+        if (SA.go[v][x] != -1) {
+            if (ans[SA.go[v][x]] == 1) {
+                calcDifferentSubstrings(SA.go[v][x], SA, ans);
+            }
+            ans[v] += ans[SA.go[v][x]];
+        }
+    }
+} // vector<ll> ans(SA.freePos, 1);
